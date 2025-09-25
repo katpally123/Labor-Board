@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IXD Planner — Roster Only</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header>
+    <h1>IXD Planner — Roster Only</h1>
+    <div class="pill">
+      <div>
+        <label>Date</label><br/>
+        <input type="date" id="datePick">
+      </div>
+      <div>
+        <label>Roster CSV</label><br/>
+        <input type="file" id="csvInput" accept=".csv">
+      </div>
+      <div>
+        <label>View</label><br/>
+        <select id="viewMode">
+          <option value="day" selected>Day</option>
+          <option value="night">Night</option>
+          <option value="both">Both</option>
+        </select>
+      </div>
+    </div>
+    <div class="metrics" id="metrics">Scheduled: — • Assigned: — • Unassigned: —</div>
+  </header>
+
+  <main>
+    <section class="left">
+      <div class="cols">
+        <div class="area" data-area="DOCK">
+          <h3>Dock <span class="cap" data-cap="DOCK"></span></h3>
+          <button class="addbtn" data-add="DOCK">+ Add placeholder</button>
+          <div class="lane" id="DOCK"></div>
+        </div>
+        <div class="area" data-area="CENTER">
+          <h3>Center Paths <span class="cap" data-cap="CENTER"></span></h3>
+          <button class="addbtn" data-add="CENTER">+ Add placeholder</button>
+          <div class="row" id="CENTER"></div>
+        </div>
+        <div class="area" data-area="TRAINING">
+          <h3>Training & Others <span class="cap" data-cap="TRAINING"></span></h3>
+          <button class="addbtn" data-add="TRAINING">+ Add placeholder</button>
+          <div class="row" id="TRAINING"></div>
+        </div>
+      </div>
+
+      <div class="area" style="margin-top:12px">
+        <h3>SORT — EACH 2 SORT</h3>
+        <div class="grid-sort" id="SORTGRID"></div>
+      </div>
+
+      <div class="unassigned">
+        <h3 style="margin:0 0 6px 0;">Unassigned <span class="muted" id="unassignedCount">0</span></h3>
+        <div class="row" id="UNASSIGNED"></div>
+      </div>
+    </section>
+
+    <aside class="right">
+      <header>
+        <strong>Roster (Scheduled — reference)</strong>
+        <span class="muted" id="codesToday">Codes: —</span>
+      </header>
+      <div class="list" id="ROSTER"></div>
+    </aside>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
