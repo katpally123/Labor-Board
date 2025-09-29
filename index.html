@@ -1,76 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>IXD Planner — Roster Only</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>IXD Planner — PXT (JS)</title>
+  <link rel="stylesheet" href="./styles.css"/>
 </head>
 <body>
-  <header>
-    <h1>IXD Planner — Roster Only</h1>
-    <div class="pill">
-      <div>
-        <label>Date</label><br/>
-        <input type="date" id="datePick">
+  <header class="topbar">
+    <div class="brand">IXD Planner</div>
+    <div class="controls">
+      <div class="group">
+        <label>Date</label>
+        <input type="date" id="datePick"/>
       </div>
-      <div>
-        <label>Roster CSV</label><br/>
-        <input type="file" id="csvInput" accept=".csv">
-      </div>
-      <div>
-        <label>View</label><br/>
+      <div class="group">
+        <label>View</label>
         <select id="viewMode">
           <option value="day" selected>Day</option>
           <option value="night">Night</option>
           <option value="both">Both</option>
         </select>
       </div>
-    </div>
-    <div class="actions">
-      <button id="autoSort" title="Fill Sort slots sequentially">Auto-fill Sort</button>
-      <button id="autoAll" title="Fill every placeholder left-to-right">Auto-fill All</button>
-      <button id="clearSort" title="Clear only Sort placements">Clear Sort</button>
+      <div class="group">
+        <label>Roster CSV</label>
+        <input type="file" id="csvRoster" accept=".csv"/>
+      </div>
+      <div class="group">
+        <label>Shift Swaps CSV (opt)</label>
+        <input type="file" id="csvSwaps" accept=".csv"/>
+      </div>
+      <div class="group">
+        <label>Vacations CSV (opt)</label>
+        <input type="file" id="csvVac" accept=".csv"/>
+      </div>
+      <div class="group inline">
+        <button id="publishBtn">Enter Publish</button>
+        <button id="exitPublishBtn" class="hide">Exit Publish</button>
+      </div>
     </div>
     <div class="metrics" id="metrics">Scheduled: — • Assigned: — • Unassigned: —</div>
+    <div id="legend" class="legend"></div>
   </header>
 
-  <main>
-    <section class="left">
-      <div class="cols">
-        <div class="area" data-area="DOCK">
-          <h3>Dock <span class="cap" data-cap="DOCK"></span></h3>
-          <button class="addbtn" data-add="DOCK">+ Add placeholder</button>
+  <main id="stage">
+    <section class="board">
+      <div class="areas">
+        <div class="area dock">
+          <h3>Dock</h3>
           <div class="lane" id="DOCK"></div>
+          <button class="addbtn" data-add="DOCK">+ Add placeholder</button>
         </div>
-        <div class="area" data-area="CENTER">
-          <h3>Center Paths <span class="cap" data-cap="CENTER"></span></h3>
-          <button class="addbtn" data-add="CENTER">+ Add placeholder</button>
+        <div class="area center">
+          <h3>Center Paths</h3>
           <div class="row" id="CENTER"></div>
+          <button class="addbtn" data-add="CENTER">+ Add placeholder</button>
         </div>
-        <div class="area" data-area="TRAINING">
-          <h3>Training & Others <span class="cap" data-cap="TRAINING"></span></h3>
-          <button class="addbtn" data-add="TRAINING">+ Add placeholder</button>
+        <div class="area train">
+          <h3>Training & Others</h3>
           <div class="row" id="TRAINING"></div>
+          <button class="addbtn" data-add="TRAINING">+ Add placeholder</button>
         </div>
       </div>
 
-      <div class="area" style="margin-top:12px">
-        <h3>SORT — EACH 2 SORT</h3>
+      <div class="area sort">
+        <h3>SORT — Each cell max 2</h3>
         <div class="grid-sort" id="SORTGRID"></div>
       </div>
 
-      <div class="unassigned">
-        <h3 style="margin:0 0 6px 0;">Unassigned <span class="muted" id="unassignedCount">0</span></h3>
+      <div class="area pool">
+        <h3>Unassigned <span class="muted" id="unassignedCount">0</span></h3>
         <div class="row" id="UNASSIGNED"></div>
       </div>
     </section>
 
-    <aside class="right">
-      <header>
-        <strong>Roster (Scheduled — reference)</strong>
-        <span class="muted" id="codesToday">Codes: —</span>
-      </header>
+    <aside class="roster">
+      <div class="roster-head">
+        <strong>Roster (Scheduled)</strong>
+        <span id="codesToday" class="muted">Codes: —</span>
+      </div>
       <div class="list" id="ROSTER"></div>
     </aside>
   </main>
