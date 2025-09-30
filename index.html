@@ -1,88 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>IXD Planner — PXT (JS)</title>
-  <link rel="stylesheet" href="./styles.css"/>
+  <meta charset="UTF-8">
+  <title>IXD Shift Board</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #fff;
+      color: #111;
+    }
+
+    /* Header: Shift Name */
+    header {
+      background: #000;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 8px solid #111;
+    }
+
+    /* Board Layout */
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 30px;
+      padding: 30px;
+      box-sizing: border-box;
+      height: calc(100vh - 100px);
+    }
+
+    /* Section Style */
+    section {
+      border: 6px solid #000;
+      background: #fafafa;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    section h2 {
+      margin: 0 0 15px 0;
+      font-size: 26px;
+      text-align: center;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* AA Cards */
+    .card {
+      border: 3px solid #111;
+      border-radius: 4px;
+      background: #fff;
+      font-size: 20px;
+      padding: 10px;
+      margin: 6px 0;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    /* Sort Grid */
+    .sort-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr); /* 8x4 = 32 lanes */
+      gap: 10px;
+    }
+
+    .lane {
+      border: 3px solid #000;
+      background: #fff;
+      border-radius: 2px;
+      min-height: 70px;
+      text-align: center;
+      font-size: 18px;
+      padding: 5px;
+      font-weight: bold;
+    }
+
+    .lane span {
+      display: block;
+      font-weight: normal;
+      font-size: 16px;
+      margin-top: 5px;
+      color: #333;
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">IXD Planner</div>
-    <div class="controls">
-      <div class="group">
-        <label>Date</label>
-        <input type="date" id="datePick"/>
-      </div>
-      <div class="group">
-        <label>View</label>
-        <select id="viewMode">
-          <option value="day" selected>Day</option>
-          <option value="night">Night</option>
-          <option value="both">Both</option>
-        </select>
-      </div>
-      <div class="group">
-        <label>Roster CSV</label>
-        <input type="file" id="csvRoster" accept=".csv"/>
-      </div>
-      <div class="group">
-        <label>Shift Swaps CSV (opt)</label>
-        <input type="file" id="csvSwaps" accept=".csv"/>
-      </div>
-      <div class="group">
-        <label>Vacations CSV (opt)</label>
-        <input type="file" id="csvVac" accept=".csv"/>
-      </div>
-      <div class="group inline">
-        <button id="publishBtn">Enter Publish</button>
-        <button id="exitPublishBtn" class="hide">Exit Publish</button>
-      </div>
-    </div>
-    <div class="metrics" id="metrics">Scheduled: — • Assigned: — • Unassigned: —</div>
-    <div id="legend" class="legend"></div>
+
+  <!-- Header -->
+  <header>
+    Shift: Back Half Days
   </header>
 
-  <main id="stage">
-    <section class="board">
-      <div class="areas">
-        <div class="area dock">
-          <h3>Dock</h3>
-          <div class="lane" id="DOCK"></div>
-          <button class="addbtn" data-add="DOCK">+ Add placeholder</button>
-        </div>
-        <div class="area center">
-          <h3>Center Paths</h3>
-          <div class="row" id="CENTER"></div>
-          <button class="addbtn" data-add="CENTER">+ Add placeholder</button>
-        </div>
-        <div class="area train">
-          <h3>Training & Others</h3>
-          <div class="row" id="TRAINING"></div>
-          <button class="addbtn" data-add="TRAINING">+ Add placeholder</button>
-        </div>
-      </div>
-
-      <div class="area sort">
-        <h3>SORT — Each cell max 2</h3>
-        <div class="grid-sort" id="SORTGRID"></div>
-      </div>
-
-      <div class="area pool">
-        <h3>Unassigned <span class="muted" id="unassignedCount">0</span></h3>
-        <div class="row" id="UNASSIGNED"></div>
-      </div>
+  <!-- Main Board -->
+  <main>
+    <section>
+      <h2>Dock</h2>
+      <div class="card">Monika – 12839261</div>
+      <div class="card">Jay – 12013117</div>
     </section>
 
-    <aside class="roster">
-      <div class="roster-head">
-        <strong>Roster (Scheduled)</strong>
-        <span id="codesToday" class="muted">Codes: —</span>
+    <section>
+      <h2>Center</h2>
+      <div class="card">Arun – 11004567</div>
+    </section>
+
+    <section>
+      <h2>Training</h2>
+      <div class="card">Bella – 11500231</div>
+    </section>
+
+    <section>
+      <h2>Sort</h2>
+      <div class="sort-grid">
+        <!-- 32 lanes -->
+        <div class="lane">01 <span></span></div>
+        <div class="lane">02 <span></span></div>
+        <div class="lane">03 <span></span></div>
+        <div class="lane">04 <span></span></div>
+        <div class="lane">05 <span></span></div>
+        <div class="lane">06 <span></span></div>
+        <div class="lane">07 <span></span></div>
+        <div class="lane">08 <span></span></div>
+        <div class="lane">09 <span></span></div>
+        <div class="lane">10 <span></span></div>
+        <div class="lane">11 <span></span></div>
+        <div class="lane">12 <span></span></div>
+        <div class="lane">13 <span></span></div>
+        <div class="lane">14 <span></span></div>
+        <div class="lane">15 <span></span></div>
+        <div class="lane">16 <span></span></div>
+        <div class="lane">17 <span></span></div>
+        <div class="lane">18 <span></span></div>
+        <div class="lane">19 <span></span></div>
+        <div class="lane">20 <span></span></div>
+        <div class="lane">21 <span></span></div>
+        <div class="lane">22 <span></span></div>
+        <div class="lane">23 <span></span></div>
+        <div class="lane">24 <span></span></div>
+        <div class="lane">25 <span></span></div>
+        <div class="lane">26 <span></span></div>
+        <div class="lane">27 <span></span></div>
+        <div class="lane">28 <span></span></div>
+        <div class="lane">29 <span></span></div>
+        <div class="lane">30 <span></span></div>
+        <div class="lane">31 <span></span></div>
+        <div class="lane">32 <span></span></div>
       </div>
-      <div class="list" id="ROSTER"></div>
-    </aside>
+    </section>
   </main>
 
-  <script src="./app.js"></script>
 </body>
 </html>
