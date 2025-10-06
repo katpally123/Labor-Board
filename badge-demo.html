@@ -3,28 +3,50 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>CRETs Badge – Soft Background by Schedule Code</title>
+<title>CRETs Badge — With Photo Placeholder</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#f6f7fa;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:30px;display:flex;flex-direction:column;align-items:center;gap:20px}
+body{
+  background:#f6f7fa;
+  font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  padding:30px;display:flex;flex-direction:column;align-items:center;gap:20px;
+}
 
-/* ===== BADGE CORE ===== */
+/* === BADGE CORE === */
 .badge{
-  width:520px;height:260px;
+  width:540px;height:260px;
+  display:grid;grid-template-columns:170px 1fr;
   border:3px solid #d5dae1;border-radius:14px;
-  display:flex;align-items:center;justify-content:center;
   box-shadow:0 3px 10px rgba(0,0,0,.05);
+  overflow:hidden;
   transition:background .3s;
 }
-.panel{
-  width:100%;height:100%;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  color:#111;gap:10px;
+.photo{
+  background:#e9eef4;
+  display:flex;align-items:center;justify-content:center;
 }
-.name{font-weight:700;font-size:20px;text-align:center}
+.photo .ph{
+  width:80px;height:80px;border-radius:10px;background:#b8c4cf;position:relative;
+}
+.photo .ph::before{
+  content:"";position:absolute;left:50%;top:30%;transform:translate(-50%,-50%);
+  width:36px;height:36px;border-radius:50%;background:#95a6b5;
+}
+.photo .ph::after{
+  content:"";position:absolute;left:50%;bottom:14%;transform:translateX(-50%);
+  width:64px;height:22px;border-radius:6px;background:#95a6b5;
+}
+
+/* === INFO PANEL === */
+.panel{
+  background:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:#111;gap:10px;position:relative;
+}
+.name{font-weight:700;font-size:20px;text-align:center;}
 .shift{font-size:15px;display:flex;gap:6px;align-items:center;justify-content:center;font-weight:600}
-.type{font-size:13px;color:#555;font-weight:500}
+.type{font-size:13px;color:#444;font-weight:500}
 .bline{display:flex;flex-direction:column;align-items:center;gap:6px}
 #barcode{height:56px}
 .login{font-size:13px;color:#555}
@@ -33,19 +55,20 @@ body{background:#f6f7fa;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;p
   padding:3px 10px;border-radius:8px;font-size:12px;font-weight:700;
 }
 
-/* ===== COLOR MAP (soft pastel tints) ===== */
-.code-DA .panel{background:#e8f0ff;} /* soft blue */
-.code-DB .panel{background:#edf6ff;} /* faint sky */
-.code-DC .panel{background:#e6fcff;} /* pale cyan */
-.code-DL .panel{background:#e6fff4;} /* mint */
-.code-DN .panel{background:#ebffeb;} /* green hint */
-.code-NA .panel{background:#f5ebff;} /* lavender */
-.code-NB .panel{background:#f8e9ff;} /* orchid */
-.code-NC .panel{background:#ffe8e8;} /* rose */
-.code-NL .panel{background:#fff1e6;} /* peach */
-.code-NN .panel{background:#fffbe6;} /* light amber */
-.code-NH .panel{background:#e6fff9;} /* aqua */
+/* === COLOR MAP (soft pastel tints) === */
+.code-DA .panel{background:#edf5ff;} /* light blue */
+.code-DB .panel{background:#f0f8ff;} /* very light sky */
+.code-DC .panel{background:#e8faff;} /* pale cyan */
+.code-DL .panel{background:#ebfff6;} /* mint */
+.code-DN .panel{background:#effff0;} /* green hint */
+.code-NA .panel{background:#f8f0ff;} /* lavender */
+.code-NB .panel{background:#f9ecff;} /* orchid */
+.code-NC .panel{background:#fff0f0;} /* rose */
+.code-NL .panel{background:#fff5eb;} /* peach */
+.code-NN .panel{background:#fffcea;} /* light amber */
+.code-NH .panel{background:#eafff8;} /* aqua */
 
+/* === CONTROLS === */
 .controls{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .controls input,.controls select,.controls button{
   padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;
@@ -56,6 +79,7 @@ body{background:#f6f7fa;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;p
 <body>
 
 <div class="badge code-DA" id="badge">
+  <div class="photo"><div class="ph" aria-hidden="true"></div></div>
   <div class="panel">
     <div class="mark" id="mark">PRESENT</div>
     <div class="name" id="name">Raviteja K</div>
