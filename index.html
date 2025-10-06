@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Virtual Labor Assignment Board</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>CRETs Virtual Labor Board</title>
   <link rel="stylesheet" href="styles.css"/>
   <!-- libs -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
@@ -11,10 +11,10 @@
   <script src="app.js" defer></script>
 </head>
 <body>
-  <!-- Header / KPIs -->
+  <!-- Header -->
   <header class="hdr">
     <div class="hdr-left">
-      <div class="brand">Virtual Labor Board</div>
+      <div class="brand">CRETs Labor Board</div>
       <div class="controls">
         <label class="ctrl">
           <span>Date</span>
@@ -26,9 +26,6 @@
             <option value="Day">Day</option>
             <option value="Night">Night</option>
           </select>
-        </label>
-        <label class="chk">
-          <input type="checkbox" id="excludeNew"> Exclude new hires (&lt; 3 days)
         </label>
       </div>
     </div>
@@ -49,43 +46,37 @@
     </div>
   </header>
 
-  <!-- Uploads (PXT-like) -->
+  <!-- Uploads -->
   <section class="uploads card">
-    <div class="row row-head">
+    <div class="row row-head" style="grid-template-columns: repeat(5, 1fr)">
       <div>
-        <label class="lbl">Roster</label>
+        <label class="lbl">Roster (required)</label>
         <input type="file" id="fileRoster" accept=".csv">
         <div class="file-hint" id="hintRoster">No file chosen</div>
       </div>
 
       <div>
-        <label class="lbl">MyTime (CAN Daily Attendance)</label>
-        <input type="file" id="fileMyTime" accept=".csv">
-        <div class="file-hint" id="hintMyTime">No file chosen</div>
-      </div>
-
-      <div>
-        <label class="lbl">CAN Daily Hours Summary (Vacation/BH)</label>
-        <input type="file" id="fileHours" accept=".csv">
-        <div class="file-hint" id="hintHours">No file chosen</div>
-      </div>
-
-      <div>
-        <label class="lbl">Shift Swap — Out</label>
+        <label class="lbl">Swap OUT (Approved)</label>
         <input type="file" id="fileSwapOut" accept=".csv">
         <div class="file-hint" id="hintSwapOut">No file chosen</div>
       </div>
 
       <div>
-        <label class="lbl">Shift Swap — In</label>
+        <label class="lbl">Swap IN (Approved)</label>
         <input type="file" id="fileSwapIn" accept=".csv">
         <div class="file-hint" id="hintSwapIn">No file chosen</div>
       </div>
 
       <div>
-        <label class="lbl">VET / VTO (PostingAcceptance)</label>
+        <label class="lbl">VET / VTO (Accepted)</label>
         <input type="file" id="fileVetVto" accept=".csv">
         <div class="file-hint" id="hintVetVto">No file chosen</div>
+      </div>
+
+      <div>
+        <label class="lbl">Labor Share (LS)</label>
+        <input type="file" id="fileLaborShare" accept=".csv">
+        <div class="file-hint" id="hintLaborShare">No file chosen</div>
       </div>
     </div>
 
@@ -95,14 +86,14 @@
         <div id="codesToday" class="codes-pill">—</div>
       </div>
       <div class="upload-actions">
-        <button id="buildData" class="btn btn-primary">Build data</button>
+        <button id="buildNow" class="btn btn-primary">Rebuild Now</button>
         <button id="resetFiles" class="btn btn-ghost">Reset files</button>
       </div>
     </div>
-    <div class="tiny-note">All files are processed locally in your browser. Nothing is uploaded.</div>
+    <div class="tiny-note">Files are parsed locally in your browser. Nothing is uploaded.</div>
   </section>
 
-  <!-- Whiteboard grid -->
+  <!-- Whiteboard -->
   <main class="whiteboard">
     <aside class="rail card">
       <h3>Unassigned <small><span id="unPlanned">0</span>/<span id="unActual">0</span></small></h3>
