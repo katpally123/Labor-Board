@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CRETs Badge Preview</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<style>
+:root{
+  --green:#0f9d58;          /* panel */
+  --green2:#128a50;         /* darker lines */
+  --ink:#ffffff;            /* text on green */
+  --frame:#0f172a;          /* outer border */
+  --name-size:18px;
+  --meta-size:14px;
+  --chip-bg:#0ea5e9;        /* type chip */
+  --chip-ink:#fff;
+}
+*{box-sizing:border-box}
+body{margin:0;padding:24px;background:#f5f7fa;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.badge{
+  width:520px;height:280px;display:grid;grid-template-columns:180px 1fr;
+  border:6px solid var(--frame); border-radius:10px; overflow:hidden; background:#fff;
+  box-shadow:0 4px 18px rgba(0,0,0,.08)
+}
+.photo{
+  background:#e8edf3 url('data:image/svg+xml;utf8,\
+  <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100">\
+  <circle cx="50" cy="38" r="20" fill="%2390a4ae"/>\
+  <rect x="12" y="61" width="76" height="30" rx="6" fill="%2390a4ae"/></svg>') center/120px no-repeat;
+}
+.panel{background:var(--green);color:var(--ink);position:relative;display:grid;grid-template-rows:1fr auto auto;padding:16px}
+.row{display:flex;align-items:center;gap:10px}
+.row + .row{border-top:3px solid var(--green2);padding-top:12px;margin-top:12px}
+.name{font-weight:800;font-size:var(--name-size);letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shift{font-size:var(--meta-size);opacity:.95}
+.shift .code{font-weight:700}
+.chip{
+  display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:var(--chip-bg);color:var(--chip-ink);
+  line-height:18px;margin-left:8px
+}
+.bc-wrap{display:flex;align-items:center;gap:12px}
+#barcode{height:54px}
+.login{font-size:13px;opacity:.95;margin-top:6px}
+.mark{
+  position:absolute;top:8px;right:10px;background:#22c55e;color:#fff;border-radius:6px;font-weight:800;
+  padding:2px 8px;font-size:12px;box-shadow:0 2px 0 rgba(0,0,0,.12)
+}
+.controls{margin-top:16px;display:flex;gap:8px;align-items:center}
+.controls input, .controls select{padding:8px;border:1px solid #cbd5e1;border-radius:6px}
+</style>
+</head>
+<body>
+
+<div class="badge" id="badge">
+  <div class="photo" id="photo"></div>
+  <div class="panel">
+    <div class="mark" id="mark">PRESENT</div>
+
+    <div class="row">
+      <div class="name" id="name">Krishna P.</div>
+    </div>
+
+    <div class="row">
+      <div class="shift"><span class="code" id="shiftCode">DA</span>
+        <span class="chip" id="shiftType">Regular</span>
+      </div>
+    </div>
+
+    <div class="row" style="flex-direction:column;align-items:flex-start;border-top:none;margin-top:0;padding-top:0;">
+      <div class="bc-wrap">
+        <svg id="barcode"></svg>
+      </div>
+      <div class="login" id="login">@krisspat</div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <input id="inName" placeholder="Name" value="Krishna P.">
+  <select id="inCode">
+    <option>DA</option><option>DB</option><option>DC</option><option>DL</option><option>DN</option>
+    <option>NA</option><option>NB</option><option>NC</option><option>NL</option><option>NN</option><option>NH</option>
+  </select>
+  <select id="inType"><option>Regular</option><option>VET</option><option>VTO</option><option>Swap</option></select>
+  <input id="inLogin" placeholder="Login (username)" value="krisspat">
+  <button onclick="apply()">Apply</button>
+</div>
+
+<!-- JsBarcode CDN -->
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script>
+function drawBarcode(text){
+  JsBarcode("#barcode", text, {
+    format:"code128", lineColor:"#111", width:2, height:54, displayValue:false, margin:0
+  });
+}
+function apply(){
+  const name  = document.getElementById('inName').value || 'Associate';
+  const code  = document.getElementById('inCode').value;
+  const type  = document.getElementById('inType').value;
+  const login = (document.getElementById('inLogin').value || '').replace(/^@/,'');
+  document.getElementById('name').textContent = name;
+  document.getElementById('shiftCode').textContent = code;
+  document.getElementById('shiftType').textContent = type;
+  document.getElementById('login').textContent = '@' + login;
+  drawBarcode(login || name);
+}
+apply();
+</script>
+</body>
+</html>
