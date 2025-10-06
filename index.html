@@ -3,42 +3,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Virtual Labor Assignment Board</title>
-  <link rel="stylesheet" href="style.css"/>
+  <title>CRETs Labor Board</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js" defer></script>
+  <script src="app.js" defer></script>
 </head>
 <body>
-  <header id="header">
-    <h1>Day Shift IXD Staffing Board</h1>
-    <div id="counts">Planned: <span id="planned">0</span> | Actual: <span id="actual">0</span></div>
+  <header class="hdr">
+    <div class="hdr-left">
+      <div class="brand">CRETs Labor Board</div>
+      <div class="controls">
+        <label class="ctrl"><span>Date</span><input id="datePick" type="date"></label>
+        <label class="ctrl"><span>Shift</span>
+          <select id="shiftType"><option value="Day">Day</option><option value="Night">Night</option></select>
+        </label>
+      </div>
+    </div>
+    <div class="hdr-center">
+      <div class="kpi"><span>Planned</span><strong id="kpiPlanned">0</strong></div>
+      <div class="kpi"><span>Actual</span><strong id="kpiActual">0</strong></div>
+      <div class="kpi"><span>Variance</span><strong id="kpiVariance">0</strong></div>
+      <div class="kpi"><span>Late</span><strong id="kpiLate">0</strong></div>
+    </div>
+    <div class="hdr-right">
+      <input id="search" class="search" type="search" placeholder="Find associate (F3)">
+      <button id="zoomMinus" class="btn">−</button>
+      <button id="zoomPlus" class="btn">+</button>
+      <button id="reset" class="btn btn-ghost">Reset</button>
+      <button id="exportLog" class="btn btn-primary">Export Log</button>
+    </div>
   </header>
 
-  <main id="board">
-    <section class="bucket" id="unassigned">
-      <div class="bucket-title">Unassigned <span class="bucket-title-count">0/0</span></div>
-      <div class="bucket-body"></div>
-    </section>
+  <section class="uploads card">
+    <div class="row row-head" style="grid-template-columns:repeat(5,1fr)">
+      <div><label class="lbl">Roster (required)</label><input type="file" id="fileRoster" accept=".csv"><div id="hintRoster" class="file-hint">No file chosen</div></div>
+      <div><label class="lbl">Swap OUT (Approved)</label><input type="file" id="fileSwapOut" accept=".csv"><div id="hintSwapOut" class="file-hint">No file chosen</div></div>
+      <div><label class="lbl">Swap IN (Approved)</label><input type="file" id="fileSwapIn" accept=".csv"><div id="hintSwapIn" class="file-hint">No file chosen</div></div>
+      <div><label class="lbl">VET / VTO (Accepted)</label><input type="file" id="fileVetVto" accept=".csv"><div id="hintVetVto" class="file-hint">No file chosen</div></div>
+      <div><label class="lbl">Labor Share (LS)</label><input type="file" id="fileLaborShare" accept=".csv"><div id="hintLaborShare" class="file-hint">No file chosen</div></div>
+    </div>
+    <div class="row row-actions">
+      <div class="codes"><div class="lbl">Shift codes today</div><div id="codesToday" class="codes-pill">—</div></div>
+      <div class="upload-actions"><button id="buildNow" class="btn btn-primary">Rebuild Now</button><button id="resetFiles" class="btn btn-ghost">Reset files</button></div>
+    </div>
+    <div class="tiny-note">Files are parsed locally in your browser. Nothing is uploaded.</div>
+  </section>
 
-    <section class="bucket" id="CB">
-      <div class="bucket-title">CB <span class="bucket-title-count">0/0</span></div>
-      <div class="bucket-body"></div>
-    </section>
+  <main class="whiteboard">
+    <aside class="rail card">
+      <h3>Unassigned <small><span id="unPlanned">0</span>/<span id="unActual">0</span></small></h3>
+      <div id="UNASSIGNED" class="well unassigned"></div>
+      <div class="legend">
+        <div class="item"><i class="dot vet"></i>VET</div>
+        <div class="item"><i class="dot vto"></i>VTO</div>
+        <div class="item"><i class="dot swapin"></i>Swap IN</div>
+        <div class="item"><i class="dot swapout"></i>Swap OUT</div>
+        <div class="item"><i class="dot break"></i>Break</div>
+        <div class="item"><i class="dot train"></i>Training</div>
+      </div>
+    </aside>
 
-    <section class="bucket" id="IB_WS">
-      <div class="bucket-title">Inbound WS <span class="bucket-title-count">0/0</span></div>
-      <div class="bucket-body"></div>
-    </section>
+    <section id="BOARD" class="board"></section>
 
-    <section class="bucket" id="Dock_WS">
-      <div class="bucket-title">Dock WS <span class="bucket-title-count">0/0</span></div>
-      <div class="bucket-body"></div>
-    </section>
-
-    <section class="bucket" id="Labor_Share">
-      <div class="bucket-title">Labor Share <span class="bucket-title-count">0/0</span></div>
-      <div class="bucket-body"></div>
-    </section>
+    <aside class="rail card">
+      <h3>Live Log</h3>
+      <div id="LOG" class="log"></div>
+    </aside>
   </main>
 
-  <script src="app.js"></script>
+  <footer class="ftr">✓ = Present  ✗ = Absent  •  Drag to move •  Right-click for break •  F3 search •  Zoom ±</footer>
 </body>
 </html>
