@@ -97,7 +97,7 @@ body::before{
 .badge .icons{display:flex; gap:6px; align-items:center}
 .ic{width:9px; height:9px; border-radius:50%}
 .ic.vet{background:var(--accent)} .ic.vto{background:var(--warn)}
-.ic.swapin{background:var(--teal)} .ic.swapout{background:var(--gray)}
+.ic.swapin{background:#14b8a6} .ic.swapout{background:#6b7280}
 .ic.break{background:#fbbf24} .ic.train{background:#60a5fa}
 
 /* Footer */
