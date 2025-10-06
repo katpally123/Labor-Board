@@ -3,96 +3,122 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>CRETs Badge Preview</title>
+<title>Badge – Centered + Code Colors</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <style>
 :root{
-  --green:#0f9d58;          /* panel */
-  --green2:#128a50;         /* darker lines */
-  --ink:#ffffff;            /* text on green */
-  --frame:#0f172a;          /* outer border */
-  --name-size:18px;
-  --meta-size:14px;
-  --chip-bg:#0ea5e9;        /* type chip */
+  --panel:#0f9d58; --panelLine:#128a50; --ink:#fff; --frame:#0b1225;
   --chip-ink:#fff;
 }
 *{box-sizing:border-box}
 body{margin:0;padding:24px;background:#f5f7fa;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+
+/* BADGE */
 .badge{
-  width:520px;height:280px;display:grid;grid-template-columns:180px 1fr;
-  border:6px solid var(--frame); border-radius:10px; overflow:hidden; background:#fff;
-  box-shadow:0 4px 18px rgba(0,0,0,.08)
+  width:540px;height:280px;margin:auto;
+  display:grid;grid-template-columns:190px 1fr;
+  border:6px solid var(--frame);border-radius:14px;overflow:hidden;background:#fff;
+  box-shadow:0 6px 20px rgba(0,0,0,.08)
 }
-.photo{
-  background:#e8edf3 url('data:image/svg+xml;utf8,\
-  <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100">\
-  <circle cx="50" cy="38" r="20" fill="%2390a4ae"/>\
-  <rect x="12" y="61" width="76" height="30" rx="6" fill="%2390a4ae"/></svg>') center/120px no-repeat;
+.photo{display:flex;align-items:center;justify-content:center;background:#e9eef4}
+.photo .ph{
+  width:84px;height:84px;border-radius:12px;background:#b8c4cf;position:relative;
 }
-.panel{background:var(--green);color:var(--ink);position:relative;display:grid;grid-template-rows:1fr auto auto;padding:16px}
-.row{display:flex;align-items:center;gap:10px}
-.row + .row{border-top:3px solid var(--green2);padding-top:12px;margin-top:12px}
-.name{font-weight:800;font-size:var(--name-size);letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.shift{font-size:var(--meta-size);opacity:.95}
-.shift .code{font-weight:700}
-.chip{
-  display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:var(--chip-bg);color:var(--chip-ink);
-  line-height:18px;margin-left:8px
+.photo .ph::before{content:"";position:absolute;left:50%;top:32%;transform:translate(-50%,-50%);
+  width:40px;height:40px;border-radius:50%;background:#95a6b5}
+.photo .ph::after{content:"";position:absolute;left:50%;bottom:10%;transform:translateX(-50%);
+  width:70px;height:26px;border-radius:8px;background:#95a6b5}
+
+/* Right slab */
+.panel{background:var(--panel);color:var(--ink);position:relative;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;padding:14px}
+.panel .row{width:100%;display:flex;justify-content:center;align-items:center}
+.name{font-weight:800;font-size:20px;letter-spacing:.2px;text-align:center}
+.hr{width:86%;height:3px;background:var(--panelLine);border-radius:2px;margin:4px auto 0}
+
+/* Shift line */
+.shift{display:flex;gap:10px;align-items:center;justify-content:center}
+.code{
+  font-weight:800;font-size:14px;color:#fff;padding:3px 10px;border-radius:999px;
+  letter-spacing:.4px; box-shadow:inset 0 -1px 0 rgba(0,0,0,.2)
 }
-.bc-wrap{display:flex;align-items:center;gap:12px}
-#barcode{height:54px}
-.login{font-size:13px;opacity:.95;margin-top:6px}
+.type{
+  font-size:12px;color:var(--chip-ink);padding:2px 8px;border-radius:999px;background:#0ea5e9
+}
+
+/* Barcode & login */
+.bline{display:flex;flex-direction:column;align-items:center;gap:6px}
+#barcode{height:56px}
+.login{font-size:13px;opacity:.95}
+
+/* Present pill */
 .mark{
-  position:absolute;top:8px;right:10px;background:#22c55e;color:#fff;border-radius:6px;font-weight:800;
-  padding:2px 8px;font-size:12px;box-shadow:0 2px 0 rgba(0,0,0,.12)
+  position:absolute;top:8px;right:10px;background:#22c55e;color:#fff;border-radius:8px;
+  font-weight:800;padding:2px 10px;font-size:12px;box-shadow:0 2px 0 rgba(0,0,0,.12)
 }
-.controls{margin-top:16px;display:flex;gap:8px;align-items:center}
-.controls input, .controls select{padding:8px;border:1px solid #cbd5e1;border-radius:6px}
+
+/* Controls */
+.controls{margin:16px auto 0;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+.controls input,.controls select,.controls button{padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;background:#fff}
+.controls button{background:#0ea5e9;color:#fff;border:0;cursor:pointer}
+
+/* ===== Schedule code palette ===== */
+.code-DA{background:#1e88e5} /* blue */
+.code-DB{background:#3b82f6} /* sky */
+.code-DC{background:#06b6d4} /* cyan */
+.code-DL{background:#059669} /* emerald */
+.code-DN{background:#22c55e} /* green */
+.code-NA{background:#a855f7} /* purple */
+.code-NB{background:#d946ef} /* fuchsia */
+.code-NC{background:#ef4444} /* red */
+.code-NL{background:#f97316} /* orange */
+.code-NN{background:#eab308} /* amber */
+.code-NH{background:#14b8a6} /* teal */
 </style>
 </head>
 <body>
 
 <div class="badge" id="badge">
-  <div class="photo" id="photo"></div>
+  <div class="photo"><div class="ph" aria-hidden="true"></div></div>
+
   <div class="panel">
     <div class="mark" id="mark">PRESENT</div>
 
-    <div class="row">
-      <div class="name" id="name">Krishna P.</div>
+    <div class="row"><div class="name" id="name">Raviteja K</div></div>
+    <div class="hr"></div>
+
+    <div class="row shift">
+      <span class="code" id="code">DB</span>
+      <span class="type" id="type">VTO</span>
     </div>
 
-    <div class="row">
-      <div class="shift"><span class="code" id="shiftCode">DA</span>
-        <span class="chip" id="shiftType">Regular</span>
-      </div>
-    </div>
-
-    <div class="row" style="flex-direction:column;align-items:flex-start;border-top:none;margin-top:0;padding-top:0;">
-      <div class="bc-wrap">
-        <svg id="barcode"></svg>
-      </div>
-      <div class="login" id="login">@krisspat</div>
+    <div class="row bline">
+      <svg id="barcode" role="img" aria-label="login barcode"></svg>
+      <div class="login" id="login">@ravitejj</div>
     </div>
   </div>
 </div>
 
 <div class="controls">
-  <input id="inName" placeholder="Name" value="Krishna P.">
+  <input id="inName" placeholder="Name" value="Raviteja K">
   <select id="inCode">
-    <option>DA</option><option>DB</option><option>DC</option><option>DL</option><option>DN</option>
+    <option>DA</option><option selected>DB</option><option>DC</option><option>DL</option><option>DN</option>
     <option>NA</option><option>NB</option><option>NC</option><option>NL</option><option>NN</option><option>NH</option>
   </select>
-  <select id="inType"><option>Regular</option><option>VET</option><option>VTO</option><option>Swap</option></select>
-  <input id="inLogin" placeholder="Login (username)" value="krisspat">
+  <select id="inType"><option>Regular</option><option selected>VTO</option><option>VET</option><option>Swap</option></select>
+  <input id="inLogin" placeholder="Login (username)" value="ravitejj">
   <button onclick="apply()">Apply</button>
 </div>
 
-<!-- JsBarcode CDN -->
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 <script>
+const CODE_CLASS = code => `code-${code}`;
+function paintCodePill(el, code){
+  el.className = 'code ' + CODE_CLASS(code);
+  el.textContent = code;
+}
 function drawBarcode(text){
-  JsBarcode("#barcode", text, {
-    format:"code128", lineColor:"#111", width:2, height:54, displayValue:false, margin:0
+  JsBarcode("#barcode", text || "-", {
+    format:"code128", lineColor:"#111", width:2, height:56, displayValue:false, margin:0
   });
 }
 function apply(){
@@ -101,8 +127,8 @@ function apply(){
   const type  = document.getElementById('inType').value;
   const login = (document.getElementById('inLogin').value || '').replace(/^@/,'');
   document.getElementById('name').textContent = name;
-  document.getElementById('shiftCode').textContent = code;
-  document.getElementById('shiftType').textContent = type;
+  paintCodePill(document.getElementById('code'), code);
+  document.getElementById('type').textContent = type;
   document.getElementById('login').textContent = '@' + login;
   drawBarcode(login || name);
 }
