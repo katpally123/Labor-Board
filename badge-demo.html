@@ -3,96 +3,65 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Badge – Centered + Code Colors</title>
+<title>CRETs Badge – Soft Background by Schedule Code</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <style>
-:root{
-  --panel:#0f9d58; --panelLine:#128a50; --ink:#fff; --frame:#0b1225;
-  --chip-ink:#fff;
-}
-*{box-sizing:border-box}
-body{margin:0;padding:24px;background:#f5f7fa;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f6f7fa;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:30px;display:flex;flex-direction:column;align-items:center;gap:20px}
 
-/* BADGE */
+/* ===== BADGE CORE ===== */
 .badge{
-  width:540px;height:280px;margin:auto;
-  display:grid;grid-template-columns:190px 1fr;
-  border:6px solid var(--frame);border-radius:14px;overflow:hidden;background:#fff;
-  box-shadow:0 6px 20px rgba(0,0,0,.08)
+  width:520px;height:260px;
+  border:3px solid #d5dae1;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 3px 10px rgba(0,0,0,.05);
+  transition:background .3s;
 }
-.photo{display:flex;align-items:center;justify-content:center;background:#e9eef4}
-.photo .ph{
-  width:84px;height:84px;border-radius:12px;background:#b8c4cf;position:relative;
+.panel{
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:#111;gap:10px;
 }
-.photo .ph::before{content:"";position:absolute;left:50%;top:32%;transform:translate(-50%,-50%);
-  width:40px;height:40px;border-radius:50%;background:#95a6b5}
-.photo .ph::after{content:"";position:absolute;left:50%;bottom:10%;transform:translateX(-50%);
-  width:70px;height:26px;border-radius:8px;background:#95a6b5}
-
-/* Right slab */
-.panel{background:var(--panel);color:var(--ink);position:relative;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;padding:14px}
-.panel .row{width:100%;display:flex;justify-content:center;align-items:center}
-.name{font-weight:800;font-size:20px;letter-spacing:.2px;text-align:center}
-.hr{width:86%;height:3px;background:var(--panelLine);border-radius:2px;margin:4px auto 0}
-
-/* Shift line */
-.shift{display:flex;gap:10px;align-items:center;justify-content:center}
-.code{
-  font-weight:800;font-size:14px;color:#fff;padding:3px 10px;border-radius:999px;
-  letter-spacing:.4px; box-shadow:inset 0 -1px 0 rgba(0,0,0,.2)
-}
-.type{
-  font-size:12px;color:var(--chip-ink);padding:2px 8px;border-radius:999px;background:#0ea5e9
-}
-
-/* Barcode & login */
+.name{font-weight:700;font-size:20px;text-align:center}
+.shift{font-size:15px;display:flex;gap:6px;align-items:center;justify-content:center;font-weight:600}
+.type{font-size:13px;color:#555;font-weight:500}
 .bline{display:flex;flex-direction:column;align-items:center;gap:6px}
 #barcode{height:56px}
-.login{font-size:13px;opacity:.95}
-
-/* Present pill */
+.login{font-size:13px;color:#555}
 .mark{
-  position:absolute;top:8px;right:10px;background:#22c55e;color:#fff;border-radius:8px;
-  font-weight:800;padding:2px 10px;font-size:12px;box-shadow:0 2px 0 rgba(0,0,0,.12)
+  position:absolute;top:8px;right:12px;background:#22c55e;color:#fff;
+  padding:3px 10px;border-radius:8px;font-size:12px;font-weight:700;
 }
 
-/* Controls */
-.controls{margin:16px auto 0;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
-.controls input,.controls select,.controls button{padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;background:#fff}
-.controls button{background:#0ea5e9;color:#fff;border:0;cursor:pointer}
+/* ===== COLOR MAP (soft pastel tints) ===== */
+.code-DA .panel{background:#e8f0ff;} /* soft blue */
+.code-DB .panel{background:#edf6ff;} /* faint sky */
+.code-DC .panel{background:#e6fcff;} /* pale cyan */
+.code-DL .panel{background:#e6fff4;} /* mint */
+.code-DN .panel{background:#ebffeb;} /* green hint */
+.code-NA .panel{background:#f5ebff;} /* lavender */
+.code-NB .panel{background:#f8e9ff;} /* orchid */
+.code-NC .panel{background:#ffe8e8;} /* rose */
+.code-NL .panel{background:#fff1e6;} /* peach */
+.code-NN .panel{background:#fffbe6;} /* light amber */
+.code-NH .panel{background:#e6fff9;} /* aqua */
 
-/* ===== Schedule code palette ===== */
-.code-DA{background:#1e88e5} /* blue */
-.code-DB{background:#3b82f6} /* sky */
-.code-DC{background:#06b6d4} /* cyan */
-.code-DL{background:#059669} /* emerald */
-.code-DN{background:#22c55e} /* green */
-.code-NA{background:#a855f7} /* purple */
-.code-NB{background:#d946ef} /* fuchsia */
-.code-NC{background:#ef4444} /* red */
-.code-NL{background:#f97316} /* orange */
-.code-NN{background:#eab308} /* amber */
-.code-NH{background:#14b8a6} /* teal */
+.controls{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.controls input,.controls select,.controls button{
+  padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;
+}
+.controls button{background:#0ea5e9;color:#fff;border:0;cursor:pointer}
 </style>
 </head>
 <body>
 
-<div class="badge" id="badge">
-  <div class="photo"><div class="ph" aria-hidden="true"></div></div>
-
+<div class="badge code-DA" id="badge">
   <div class="panel">
     <div class="mark" id="mark">PRESENT</div>
-
-    <div class="row"><div class="name" id="name">Raviteja K</div></div>
-    <div class="hr"></div>
-
-    <div class="row shift">
-      <span class="code" id="code">DB</span>
-      <span class="type" id="type">VTO</span>
-    </div>
-
-    <div class="row bline">
-      <svg id="barcode" role="img" aria-label="login barcode"></svg>
+    <div class="name" id="name">Raviteja K</div>
+    <div class="shift"><span id="code">DA</span> · <span class="type" id="type">Regular</span></div>
+    <div class="bline">
+      <svg id="barcode"></svg>
       <div class="login" id="login">@ravitejj</div>
     </div>
   </div>
@@ -101,21 +70,16 @@ body{margin:0;padding:24px;background:#f5f7fa;font-family:Segoe UI,Roboto,Helvet
 <div class="controls">
   <input id="inName" placeholder="Name" value="Raviteja K">
   <select id="inCode">
-    <option>DA</option><option selected>DB</option><option>DC</option><option>DL</option><option>DN</option>
+    <option>DA</option><option>DB</option><option>DC</option><option>DL</option><option>DN</option>
     <option>NA</option><option>NB</option><option>NC</option><option>NL</option><option>NN</option><option>NH</option>
   </select>
-  <select id="inType"><option>Regular</option><option selected>VTO</option><option>VET</option><option>Swap</option></select>
-  <input id="inLogin" placeholder="Login (username)" value="ravitejj">
+  <select id="inType"><option>Regular</option><option>VET</option><option>VTO</option><option>Swap</option></select>
+  <input id="inLogin" placeholder="Login" value="ravitejj">
   <button onclick="apply()">Apply</button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 <script>
-const CODE_CLASS = code => `code-${code}`;
-function paintCodePill(el, code){
-  el.className = 'code ' + CODE_CLASS(code);
-  el.textContent = code;
-}
 function drawBarcode(text){
   JsBarcode("#barcode", text || "-", {
     format:"code128", lineColor:"#111", width:2, height:56, displayValue:false, margin:0
@@ -126,8 +90,10 @@ function apply(){
   const code  = document.getElementById('inCode').value;
   const type  = document.getElementById('inType').value;
   const login = (document.getElementById('inLogin').value || '').replace(/^@/,'');
+  const badge = document.getElementById('badge');
+  badge.className = 'badge code-' + code;
   document.getElementById('name').textContent = name;
-  paintCodePill(document.getElementById('code'), code);
+  document.getElementById('code').textContent = code;
   document.getElementById('type').textContent = type;
   document.getElementById('login').textContent = '@' + login;
   drawBarcode(login || name);
