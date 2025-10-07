@@ -1,114 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>CRETs Labor Board</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>CRETs Labor Board — Rotations</title>
   <link rel="stylesheet" href="styles.css"/>
-  <!-- libs -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js" defer></script>
-  <!-- app -->
   <script src="app.js" defer></script>
 </head>
 <body>
   <header class="hdr">
-    <div class="hdr-left">
-      <div class="brand">CRETs Labor Board</div>
-      <div class="controls">
-        <label class="ctrl">
-          <span>Date</span>
-          <input id="datePick" type="date">
-        </label>
-        <label class="ctrl">
-          <span>Shift</span>
-          <select id="shiftType">
-            <option value="Day">Day</option>
-            <option value="Night">Night</option>
-          </select>
-        </label>
+    <div class="brand">CRETs Labor Board</div>
+    <div class="ctrls">
+      <label class="ctrl"><span>Date</span><input id="datePick" type="date"/></label>
+      <label class="ctrl"><span>Shift</span>
+        <select id="shiftType"><option>Day</option><option>Night</option></select>
+      </label>
+      <label class="ctrl"><span>Quarter</span>
+        <select id="quarterSel"><option value="Q1">Q1</option><option value="Q2">Q2</option><option value="Q3">Q3</option></select>
+      </label>
+
+      <div class="dropdown">
+        <button id="unBtn" class="btn">Unassigned <span id="unCount">0</span> ▾</button>
+        <div id="unMenu" class="menu">
+          <input id="unSearch" class="search" placeholder="Search..." />
+          <div id="unList" class="list"></div>
+          <div class="menu-actions">
+            <label>Send to
+              <select id="unTarget"></select>
+            </label>
+            <button id="unAssign" class="btn btn-primary">Assign</button>
+          </div>
+        </div>
       </div>
+
+      <button id="autoAssign" class="btn">Auto-Assign</button>
+      <div id="autoPanel" class="panel">
+        <div class="row">
+          <label>Target E2S stations:
+            <input id="e2sTarget" type="number" min="0" max="48" value="36"/>
+          </label>
+          <label>Fairness:
+            <select id="fairness"><option value="off">Off</option><option value="light" selected>Light</option><option value="strong">Strong</option></select>
+          </label>
+          <label><input id="critFirst" type="checkbox" checked/> Critical first</label>
+        </div>
+        <div class="row">
+          <button id="aaPreview" class="btn btn-primary">Preview</button>
+          <button id="aaApply" class="btn">Apply</button>
+          <button id="aaCancel" class="btn btn-ghost">Cancel</button>
+        </div>
+        <div id="aaMsg" class="tiny-note"></div>
+      </div>
+
+      <button id="buildNow" class="btn btn-ghost">Rebuild</button>
     </div>
-    <div class="hdr-center">
+
+    <div class="kpis">
       <div class="kpi"><span>Planned</span><strong id="kpiPlanned">0</strong></div>
       <div class="kpi"><span>Actual</span><strong id="kpiActual">0</strong></div>
       <div class="kpi"><span>Variance</span><strong id="kpiVariance">0</strong></div>
-      <div class="kpi"><span>Late</span><strong id="kpiLate">0</strong></div>
-    </div>
-    <div class="hdr-right">
-      <input id="search" class="search" type="search" placeholder="Find associate (F3)">
-      <button id="zoomMinus" class="btn" title="Zoom −">−</button>
-      <button id="zoomPlus" class="btn" title="Zoom +">+</button>
-      <button id="reset" class="btn btn-ghost">Reset</button>
-      <button id="exportLog" class="btn btn-primary">Export Log</button>
     </div>
   </header>
 
-  <section class="uploads card">
-    <div class="row row-head">
-      <div>
-        <label class="lbl">Roster (required)</label>
-        <input type="file" id="fileRoster" accept=".csv">
-        <div id="hintRoster" class="file-hint">No file chosen</div>
-      </div>
-      <div>
-        <label class="lbl">Swap OUT (Approved)</label>
-        <input type="file" id="fileSwapOut" accept=".csv">
-        <div id="hintSwapOut" class="file-hint">No file chosen</div>
-      </div>
-      <div>
-        <label class="lbl">Swap IN (Approved)</label>
-        <input type="file" id="fileSwapIn" accept=".csv">
-        <div id="hintSwapIn" class="file-hint">No file chosen</div>
-      </div>
-      <div>
-        <label class="lbl">VET / VTO (Accepted)</label>
-        <input type="file" id="fileVetVto" accept=".csv">
-        <div id="hintVetVto" class="file-hint">No file chosen</div>
-      </div>
-      <div>
-        <label class="lbl">Labor Share (optional)</label>
-        <input type="file" id="fileLaborShare" accept=".csv">
-        <div id="hintLaborShare" class="file-hint">No file chosen</div>
-      </div>
+  <section class="uploads">
+    <div class="file">
+      <label>Roster (required)</label>
+      <input type="file" id="fileRoster" accept=".csv"/>
+      <small id="hintRoster" class="hint">No file chosen</small>
     </div>
-    <div class="row row-actions">
-      <div class="codes">
-        <div class="lbl">Shift codes today</div>
-        <div id="codesToday" class="codes-pill">—</div>
-      </div>
-      <div class="upload-actions">
-        <button id="buildNow" class="btn btn-primary">Rebuild Now</button>
-        <button id="resetFiles" class="btn btn-ghost">Reset files</button>
-      </div>
+    <div class="file">
+      <label>Swap OUT (Approved)</label>
+      <input type="file" id="fileSwapOut" accept=".csv"/>
+      <small id="hintSwapOut" class="hint">No file chosen</small>
     </div>
-    <div class="tiny-note">Files are parsed locally in your browser. Nothing is uploaded.</div>
+    <div class="file">
+      <label>Swap IN (Approved)</label>
+      <input type="file" id="fileSwapIn" accept=".csv"/>
+      <small id="hintSwapIn" class="hint">No file chosen</small>
+    </div>
+    <div class="file">
+      <label>VET / VTO (Accepted)</label>
+      <input type="file" id="fileVetVto" accept=".csv"/>
+      <small id="hintVetVto" class="hint">No file chosen</small>
+    </div>
+    <div class="file">
+      <label>Labor Share (optional)</label>
+      <input type="file" id="fileLaborShare" accept=".csv"/>
+      <small id="hintLaborShare" class="hint">No file chosen</small>
+    </div>
   </section>
 
-  <main class="whiteboard">
-    <aside class="rail card">
-      <h3>Unassigned <small><span id="unPlanned">0</span>/<span id="unActual">0</span></small></h3>
-      <div id="UNASSIGNED" class="well unassigned"></div>
-      <div class="legend">
-        <div class="item"><i class="dot vet"></i>VET</div>
-        <div class="item"><i class="dot vto"></i>VTO</div>
-        <div class="item"><i class="dot swapin"></i>Swap IN</div>
-        <div class="item"><i class="dot swapout"></i>Swap OUT</div>
-        <div class="item"><i class="dot break"></i>Break</div>
-        <div class="item"><i class="dot train"></i>Training</div>
-      </div>
-    </aside>
-
+  <main class="board-wrap">
     <section id="BOARD" class="board"></section>
-
-    <aside class="rail card">
-      <h3>Live Log</h3>
-      <pre id="LOG" class="log">—</pre>
-    </aside>
   </main>
 
-  <footer class="ftr">
-    ✓ click = Present · click again = Planned • Right-click = Break toggle • Drag between lanes • F3 = focus search • Zoom ±
-  </footer>
+  <!-- Lock modal -->
+  <dialog id="lockDlg" class="modal">
+    <h3 id="lockTitle">Lock Quarter?</h3>
+    <p>This will record assignments for the current quarter and download a CSV snapshot.</p>
+    <div class="row">
+      <button id="lockYes" class="btn btn-primary">Lock & Continue</button>
+      <button id="lockNo" class="btn btn-ghost">Cancel</button>
+    </div>
+    <small class="tiny-note">No data is stored — a CSV file will be downloaded.</small>
+  </dialog>
 </body>
 </html>
