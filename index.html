@@ -1,84 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>CRETs Labor Board — Rotations</title>
-  <link rel="stylesheet" href="styles.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js" defer></script>
-  <script src="app.js" defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CRETs Labor Board — Virtual Badges</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- CSV + Barcode libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 </head>
 <body>
-  <header class="hdr">
-    <div class="brand">CRETs Labor Board</div>
-    <div class="ctrls">
-      <label class="ctrl"><span>Date</span><input id="datePick" type="date"/></label>
-      <label class="ctrl"><span>Shift</span>
-        <select id="shiftType"><option>Day</option><option>Night</option></select>
-      </label>
-      <label class="ctrl"><span>Quarter</span>
-        <select id="quarterSel"><option value="Q1">Q1</option><option value="Q2">Q2</option><option value="Q3">Q3</option></select>
-      </label>
-
-      <!-- Unassigned dropdown -->
-      <div class="dropdown">
-        <button id="unBtn" class="btn">Unassigned <span id="unCount">0</span> ▾</button>
-        <div id="unMenu" class="menu">
-          <input id="unSearch" class="search" placeholder="Search name/EID…"/>
-          <div id="unList" class="list"></div>
-          <div class="menu-actions">
-            <label>Send to
-              <select id="unTarget"></select>
-            </label>
-            <button id="unAssign" class="btn btn-primary">Assign</button>
-          </div>
-        </div>
+  <header>
+    <div class="row">
+      <div class="ctrl">
+        <label>Roster</label><input id="fileRoster" type="file" accept=".csv" />
+        <span id="hintRoster" class="hint"></span>
+      </div>
+      <div class="ctrl">
+        <label>Swap IN</label><input id="fileSwapIn" type="file" accept=".csv" />
+        <span id="hintSwapIn" class="hint"></span>
+      </div>
+      <div class="ctrl">
+        <label>Swap OUT</label><input id="fileSwapOut" type="file" accept=".csv" />
+        <span id="hintSwapOut" class="hint"></span>
+      </div>
+      <div class="ctrl">
+        <label>VET/VTO</label><input id="fileVetVto" type="file" accept=".csv" />
+        <span id="hintVetVto" class="hint"></span>
+      </div>
+      <div class="ctrl">
+        <label>Date</label><input id="datePick" type="date" />
+      </div>
+      <div class="ctrl">
+        <label>Shift</label>
+        <select id="shiftType">
+          <option value="Day">Day</option>
+          <option value="Night">Night</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>Expected HC</label>
+        <select id="expectedSelect"></select>
       </div>
 
-      <!-- Auto-assign -->
-      <button id="autoAssign" class="btn">Auto-Assign</button>
-      <div id="autoPanel" class="panel">
-        <div class="row">
-          <label>Target E2S:
-            <input id="e2sTarget" type="number" min="0" max="48" value="36"/>
-          </label>
-          <label>Fairness:
-            <select id="fairness"><option value="off">Off</option><option value="light" selected>Light</option><option value="strong">Strong</option></select>
-          </label>
-          <label><input id="critFirst" type="checkbox" checked/> Critical first</label>
-        </div>
-        <div class="row">
-          <button id="aaPreview" class="btn btn-primary">Preview</button>
-          <button id="aaApply" class="btn">Apply</button>
-          <button id="aaCancel" class="btn btn-ghost">Cancel</button>
-        </div>
-        <div id="aaMsg" class="tiny-note"></div>
+      <div class="kpis">
+        <div class="kpi"><span>Planned HC</span><strong id="kpiPlanned">0</strong></div>
+        <div class="kpi"><span>Actual HC</span><strong id="kpiActual">0</strong></div>
+        <div class="kpi"><span>Variance</span><strong id="kpiVariance">0</strong></div>
       </div>
-
-      <button id="buildNow" class="btn btn-ghost">Rebuild</button>
-    </div>
-
-    <div class="kpis">
-      <div class="kpi"><span>Planned</span><strong id="kpiPlanned">0</strong></div>
-      <div class="kpi"><span>Actual</span><strong id="kpiActual">0</strong></div>
-      <div class="kpi"><span>Variance</span><strong id="kpiVariance">0</strong></div>
     </div>
   </header>
 
-  <main class="paper">
-    <section id="BOARD" class="board"></section>
-  </main>
+  <div class="toolbar">
+    <button class="btn" id="btnExport">Export Day Log</button>
+    <button class="btn secondary" id="btnClear">Clear Present Flags</button>
+  </div>
 
-  <!-- Lock modal -->
-  <dialog id="lockDlg" class="modal">
-    <h3 id="lockTitle">Lock Quarter?</h3>
-    <p>This records the current quarter’s assignments and downloads a CSV. No data is stored.</p>
-    <div class="row">
-      <button id="lockYes" class="btn btn-primary">Lock & Continue</button>
-      <button id="lockNo" class="btn btn-ghost">Cancel</button>
-    </div>
-  </dialog>
+  <main id="board"></main>
+
+  <script src="app.js"></script>
 </body>
 </html>
