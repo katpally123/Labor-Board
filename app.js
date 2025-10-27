@@ -1,3 +1,4 @@
+// === app.js ===
 /* ====== CONFIG ====== */
 const CRETS_DEPT_IDS = new Set(["1299070","1211070"]); // CRETs filter
 // Example schedule map (tune to site truth)
@@ -149,7 +150,6 @@ function makeBadgeEl(b, demo=false){
       <div class="handle">@${slug(handleFromName(b.name))}</div>
     </div>
   `;
-
   if(!demo){
     card.addEventListener("click", ()=>{
       b.present = !b.present;
