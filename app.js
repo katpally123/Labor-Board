@@ -1,7 +1,3 @@
-<script src="usage.js"></script>
-<script>
-  trackUsage(); // counts one silent use
-</script>
 // === app.js ===
 /* ====== CONFIG ====== */
 const CRETS_DEPT_IDS = new Set(["1299070","1211070"]); // CRETs filter
