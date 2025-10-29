@@ -1,15 +1,17 @@
-// === index.html ===
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CRETs Labor Board — Virtual Badges</title>
+
   <link rel="stylesheet" href="styles.css" />
+
   <!-- CSV + Barcode libraries -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 </head>
+
 <body>
   <header>
     <div class="row">
@@ -59,6 +61,13 @@
 
   <main id="board"></main>
 
+  <!-- === Silent usage tracker === -->
+  <script src="usage.js"></script>
+  <script>
+    trackUsage(); // increments counter silently
+  </script>
+
+  <!-- === Main dashboard script === -->
   <script src="app.js"></script>
 </body>
 </html>
