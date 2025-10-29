@@ -16,7 +16,7 @@ const BRANCH     = "main";
 async function trackUsage() {
   try {
     // ------------- INSERT YOUR TOKEN LOCALLY ONLY -------------
-    const GITHUB_PAT = "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"; // <— your new PAT goes here
+    const GITHUB_PAT = "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"; // <— your new PAT goes here
     // ----------------------------------------------------------
 
     if (!GITHUB_PAT || sessionStorage.getItem("pxt_usage_counted")) return;
