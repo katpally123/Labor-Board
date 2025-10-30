@@ -4,35 +4,32 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CRETs Labor Board — Virtual Badges</title>
-
   <link rel="stylesheet" href="styles.css" />
-
   <!-- CSV + Barcode libraries -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 </head>
-
 <body>
   <header>
     <div class="row">
       <div class="ctrl">
-        <label>Roster</label><input id="fileRoster" type="file" accept=".csv" />
+        <label>Roster</label> <input id="fileRoster" type="file" accept=".csv" />
         <span id="hintRoster" class="hint"></span>
       </div>
       <div class="ctrl">
-        <label>Swap IN</label><input id="fileSwapIn" type="file" accept=".csv" />
+        <label>Swap IN</label> <input id="fileSwapIn" type="file" accept=".csv" />
         <span id="hintSwapIn" class="hint"></span>
       </div>
       <div class="ctrl">
-        <label>Swap OUT</label><input id="fileSwapOut" type="file" accept=".csv" />
+        <label>Swap OUT</label> <input id="fileSwapOut" type="file" accept=".csv" />
         <span id="hintSwapOut" class="hint"></span>
       </div>
       <div class="ctrl">
-        <label>VET/VTO</label><input id="fileVetVto" type="file" accept=".csv" />
+        <label>VET/VTO</label> <input id="fileVetVto" type="file" accept=".csv" />
         <span id="hintVetVto" class="hint"></span>
       </div>
       <div class="ctrl">
-        <label>Date</label><input id="datePick" type="date" />
+        <label>Date</label> <input id="datePick" type="date" />
       </div>
       <div class="ctrl">
         <label>Shift</label>
@@ -45,7 +42,6 @@
         <label>Expected HC</label>
         <select id="expectedSelect"></select>
       </div>
-
       <div class="kpis">
         <div class="kpi"><span>Planned HC</span><strong id="kpiPlanned">0</strong></div>
         <div class="kpi"><span>Actual HC</span><strong id="kpiActual">0</strong></div>
@@ -53,35 +49,79 @@
       </div>
     </div>
   </header>
-
   <div class="toolbar">
     <button class="btn" id="btnExport">Export Day Log</button>
     <button class="btn secondary" id="btnClear">Clear Present Flags</button>
   </div>
-
   <main id="board"></main>
-
   <!-- === Silent Visit Tracker (Cloudflare Worker) === -->
   <img src="https://laborboard-tracker.katipallyraviteja.workers.dev/" style="display:none" alt="tracker" />
-
-  <!-- === Optional: show visit count in top-right corner === -->
+  
+  <!-- === Animated Visit Counter Badge === -->
+  <style>
+    #visit-badge {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 9999;
+      cursor: default;
+      user-select: none;
+    }
+    #visit-badge.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #visit-badge:hover {
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+      transform: translateY(-2px);
+    }
+    #visit-badge .count {
+      font-size: 16px;
+      margin-left: 5px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+  </style>
+  
+  <div id="visit-badge">
+    👁️ Visits: <span class="count" id="visit-count">...</span>
+  </div>
+  
   <script>
+    // Fetch visit count from Cloudflare Worker with animated fade-in
     fetch("https://laborboard-tracker.katipallyraviteja.workers.dev/")
       .then(res => res.json())
       .then(data => {
-        const span = document.createElement("span");
-        span.textContent = "Visits: " + data.visits;
-        span.style.position = "absolute";
-        span.style.right = "20px";
-        span.style.top = "10px";
-        span.style.color = "#555";
-        span.style.fontSize = "14px";
-        span.style.fontFamily = "sans-serif";
-        document.body.appendChild(span);
+        const badge = document.getElementById('visit-badge');
+        const count = document.getElementById('visit-count');
+        count.textContent = data.visits;
+        // Trigger fade-in animation after short delay
+        setTimeout(() => {
+          badge.classList.add('visible');
+        }, 300);
       })
-      .catch(() => console.warn("Visit counter unavailable"));
+      .catch(() => {
+        const badge = document.getElementById('visit-badge');
+        const count = document.getElementById('visit-count');
+        count.textContent = 'N/A';
+        badge.classList.add('visible');
+      });
   </script>
-
+  
   <!-- === Main dashboard logic === -->
   <script src="app.js"></script>
 </body>
