@@ -61,10 +61,28 @@
 
   <main id="board"></main>
 
-  <!-- === Safe, Silent Visit Tracker (CountAPI) === -->
-  <img src="https://api.countapi.xyz/hit/katpally123-laborboard/visits" style="display:none">
+  <!-- === Silent Visit Tracker (Cloudflare Worker) === -->
+  <img src="https://laborboard-tracker.katipallyraviteja.workers.dev/" style="display:none" alt="tracker" />
 
-  <!-- === Main dashboard script === -->
+  <!-- === Optional: show visit count in top-right corner === -->
+  <script>
+    fetch("https://laborboard-tracker.katipallyraviteja.workers.dev/")
+      .then(res => res.json())
+      .then(data => {
+        const span = document.createElement("span");
+        span.textContent = "Visits: " + data.visits;
+        span.style.position = "absolute";
+        span.style.right = "20px";
+        span.style.top = "10px";
+        span.style.color = "#555";
+        span.style.fontSize = "14px";
+        span.style.fontFamily = "sans-serif";
+        document.body.appendChild(span);
+      })
+      .catch(() => console.warn("Visit counter unavailable"));
+  </script>
+
+  <!-- === Main dashboard logic === -->
   <script src="app.js"></script>
 </body>
 </html>
